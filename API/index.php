@@ -1,283 +1,603 @@
 
 <?php
-$name = "Yassin";
-$role = "Web Developer";
-$description = "I build modern, responsive and user-friendly websites.";
+$name = " Mohamed Yacine";
+$role = "Full Stack Web Developer";
 $email = "elmessarimohamedyacine@gmail.com";
 
-$skills = ["HTML", "CSS", "JavaScript", "PHP", "Git", "GitHub"];
+$skills = [
+    ["PHP", "php"],
+    ["MySQL", "database"],
+    ["HTML5", "code"],
+    ["CSS3", "palette"],
+    ["JavaScript", "javascript"],
+    ["Git", "git"],
+    ["GitHub", "github"]
+];
 
 $projects = [
     [
-        "title" => "My Portfolio",
-        "description" => "A personal website to showcase my skills and projects.",
-        "link" => "#"
+        "title" => "Personal Portfolio",
+        "description" => "A modern portfolio to showcase my skills and experience.",
+        "tag" => "PHP • HTML • CSS",
+        "link" => "#contact"
     ],
     [
-        "title" => "Project Two",
-        "description" => "A responsive website built with modern web technologies.",
-        "link" => "#"
+        "title" => "Task Manager",
+        "description" => "A clean and responsive task management application.",
+        "tag" => "PHP • MySQL",
+        "link" => "#contact"
     ],
     [
-        "title" => "Project Three",
-        "description" => "Another project I'm working on. Coming soon!",
-        "link" => "#"
+        "title" => "E-commerce Website",
+        "description" => "An online shopping experience with a modern interface.",
+        "tag" => "PHP • MySQL • CSS",
+        "link" => "#contact"
     ]
 ];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($name) ?> | Portfolio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Official portfolio of Yassine Mohamed, Full Stack Web Developer.">
+<title><?= htmlspecialchars($name) ?> | Developer</title>
 
-        html {
-            scroll-behavior: smooth;
-        }
+<style>
+:root {
+    --bg: #050b18;
+    --panel: #0a1528;
+    --blue: #079cff;
+    --cyan: #20d5ff;
+    --text: #f4f8ff;
+    --muted: #9bacc6;
+    --border: rgba(55, 155, 255, .20);
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b1120;
-            color: #f1f5f9;
-            line-height: 1.6;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+}
 
-        .container {
-            width: min(1100px, 90%);
-            margin: auto;
-        }
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    line-height: 1.7;
+}
 
-        header {
-            padding: 22px 0;
-            border-bottom: 1px solid #243047;
-        }
+a {
+    color: inherit;
+    text-decoration: none;
+}
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-        }
+.container {
+    width: min(1080px, 90%);
+    margin: auto;
+}
 
-        .logo {
-            font-size: 25px;
-            font-weight: bold;
-            color: #38bdf8;
-        }
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 11, 24, .92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
 
-        nav ul {
-            display: flex;
-            gap: 24px;
-            list-style: none;
-        }
+nav {
+    min-height: 76px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
 
-        nav a:hover {
-            color: #38bdf8;
-        }
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -.8px;
+}
 
-        .hero {
-            min-height: 75vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 80px 0;
-        }
+.logo span {
+    color: var(--blue);
+}
 
-        .tag {
-            color: #38bdf8;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+}
 
-        h1 {
-            font-size: clamp(38px, 7vw, 68px);
-            line-height: 1.15;
-            margin-bottom: 20px;
-        }
+nav ul a {
+    font-size: 14px;
+    color: #d6e3f7;
+    transition: color .2s;
+}
 
-        h1 span {
-            color: #38bdf8;
-        }
+nav ul a:hover,
+.project-link:hover {
+    color: var(--cyan);
+}
 
-        .hero p {
-            color: #a9b7cc;
-            max-width: 600px;
-            font-size: 18px;
-            margin-bottom: 28px;
-        }
+.hero {
+    min-height: 490px;
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    align-items: center;
+    gap: 45px;
+    padding-top: 65px;
+    padding-bottom: 65px;
+}
 
-        .btn {
-            display: inline-block;
-            background: #38bdf8;
-            color: #08111f;
-            padding: 12px 22px;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: 0.2s;
-        }
+.eyebrow {
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
 
-        .btn:hover {
-            background: #7dd3fc;
-            transform: translateY(-2px);
-        }
+h1 {
+    font-size: clamp(39px, 5.5vw, 66px);
+    line-height: 1.12;
+    letter-spacing: -2px;
+    margin-bottom: 15px;
+}
 
-        section {
-            padding: 65px 0;
-        }
+h1 span,
+.section-title span {
+    color: var(--blue);
+}
 
-        .section-title {
-            font-size: 32px;
-            margin-bottom: 25px;
-        }
+.role {
+    font-size: clamp(19px, 2.4vw, 25px);
+    font-weight: 700;
+    margin-bottom: 18px;
+}
 
-        .section-title span {
-            color: #38bdf8;
-        }
+.hero-description,
+.muted {
+    color: var(--muted);
+}
 
-        .muted {
-            color: #a9b7cc;
-        }
+.hero-description {
+    max-width: 490px;
+    margin-bottom: 28px;
+}
 
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 25px;
-        }
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+}
 
-        .skill {
-            background: #172238;
-            border: 1px solid #2a3b56;
-            padding: 10px 17px;
-            border-radius: 8px;
-        }
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 20px;
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: .25s;
+}
 
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+.btn-primary {
+    background: var(--blue);
+    color: white;
+    box-shadow: 0 0 25px rgba(7, 156, 255, .15);
+}
 
-        .project {
-            background: #121c30;
-            border: 1px solid #243047;
-            border-radius: 12px;
-            padding: 24px;
-            transition: 0.2s;
-        }
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(7, 156, 255, .20);
+}
 
-        .project:hover {
-            border-color: #38bdf8;
-            transform: translateY(-4px);
-        }
+.btn-outline {
+    color: var(--text);
+}
 
-        .project h3 {
-            margin-bottom: 12px;
-        }
+.profile {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 310px;
+}
 
-        .project p {
-            color: #a9b7cc;
-            margin-bottom: 18px;
-        }
+.profile-ring {
+    width: 255px;
+    height: 255px;
+    border: 2px solid var(--blue);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 0 35px rgba(0, 145, 255, .25),
+                inset 0 0 35px rgba(0, 145, 255, .08);
+    animation: glow 3s ease-in-out infinite alternate;
+}
 
-        .project a {
-            color: #38bdf8;
-            font-weight: bold;
-        }
+.profile-inner {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, #102c51, #07101f);
+    border: 1px solid #1b8bff;
+    z-index: 1;
+}
 
-        .contact-box {
-            background: #121c30;
-            border: 1px solid #243047;
-            border-radius: 12px;
-            padding: 30px;
-        }
+.profile-initials {
+    font-size: 76px;
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: 0 0 35px rgba(0, 156, 255, .55);
+}
 
-        footer {
-            text-align: center;
-            padding: 25px 0;
-            border-top: 1px solid #243047;
-            color: #a9b7cc;
-        }
+.code-note {
+    position: absolute;
+    right: -5px;
+    top: 28px;
+    color: var(--cyan);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 8px;
+    font: 12px monospace;
+}
 
-        @media (max-width: 700px) {
-            nav {
-                align-items: flex-start;
-                flex-direction: column;
-            }
+section {
+    border-top: 1px solid rgba(55, 155, 255, .13);
+    padding: 55px 0;
+}
 
-            nav ul {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
+.section-title {
+    font-size: 29px;
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
 
-            .projects {
-                grid-template-columns: 1fr;
-            }
+.section-subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 25px;
+}
 
-            .hero {
-                min-height: 65vh;
-            }
-        }
-    </style>
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.about-copy {
+    color: #b4c4dc;
+}
+
+.traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 22px;
+    color: var(--cyan);
+    font-size: 13px;
+}
+
+.info-card,
+.skill-card,
+.project-card,
+.contact-card {
+    background: linear-gradient(145deg, #0a172b, #07101e);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.info-card {
+    padding: 22px;
+}
+
+.info-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+    padding: 8px 0;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.info-row span:first-child {
+    color: var(--cyan);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.skill-card {
+    min-height: 108px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: .25s;
+}
+
+.skill-card:hover,
+.project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--blue);
+}
+
+.skill-icon {
+    font-size: 27px;
+    color: var(--cyan);
+    font-weight: 800;
+}
+
+.skill-name {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.project-card {
+    padding: 23px;
+    transition: .25s;
+}
+
+.project-number {
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 17px;
+}
+
+.project-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.project-card p {
+    color: var(--muted);
+    font-size: 13px;
+    min-height: 65px;
+    margin-bottom: 15px;
+}
+
+.project-tag {
+    display: inline-block;
+    color: var(--cyan);
+    font-size: 11px;
+    margin-bottom: 17px;
+}
+
+.project-link {
+    display: block;
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.contact-card {
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+
+.contact-card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+footer {
+    border-top: 1px solid var(--border);
+    padding: 22px 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+footer span {
+    color: var(--cyan);
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 20px rgba(0,145,255,.18); }
+    to { box-shadow: 0 0 45px rgba(0,145,255,.38); }
+}
+
+@media (max-width: 850px) {
+    nav ul { gap: 15px; }
+    .hero { gap: 15px; }
+    .skills-grid { grid-template-columns: repeat(4, 1fr); }
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .about-grid { gap: 25px; }
+}
+
+@media (max-width: 600px) {
+    nav {
+        padding: 15px 0;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    nav ul {
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    nav ul a { font-size: 12px; }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 50px;
+    }
+
+    .profile {
+        min-height: 280px;
+        grid-row: 1;
+    }
+
+    .profile-ring {
+        width: 215px;
+        height: 215px;
+    }
+
+    .profile-inner {
+        width: 185px;
+        height: 185px;
+    }
+
+    .profile-initials { font-size: 62px; }
+    .code-note { right: 0; top: 0; }
+
+    .about-grid,
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .skills-grid { grid-template-columns: repeat(3, 1fr); }
+    .section-title { font-size: 26px; }
+
+    .contact-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
 </head>
-<body>
 
+<body>
 <header>
-    <div class="container">
-        <nav>
-            <a href="#home" class="logo"><?= htmlspecialchars($name) ?>.</a>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </div>
+    <nav class="container">
+        <a class="logo" href="#home"><span>Y</span>assine.</a>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 </header>
 
 <main>
-    <section class="container hero" id="home">
-        <div class="tag">WELCOME TO MY PORTFOLIO</div>
-        <h1>Hi, I'm <span><?= htmlspecialchars($name) ?></span><br>
-            <?= htmlspecialchars($role) ?>.</h1>
-        <p><?= htmlspecialchars($description) ?></p>
-        <a class="btn" href="#projects">Explore My Work →</a>
-    </section>
+    <div class="container hero" id="home">
+        <div>
+            <div class="eyebrow">Hello, I'm</div>
+            <h1><?= htmlspecialchars($name) ?></h1>
+            <div class="role"><?= htmlspecialchars($role) ?></div>
+
+            <p class="hero-description">
+                I build modern and responsive web applications using PHP,
+                MySQL, HTML, CSS and JavaScript. I turn ideas into real solutions.
+            </p>
+
+            <div class="actions">
+                <a class="btn btn-primary" href="#projects">View My Projects ↗</a>
+                <a class="btn btn-outline" href="#contact">✉ Contact Me</a>
+            </div>
+        </div>
+
+        <div class="profile">
+            <div class="profile-ring"></div>
+            <div class="profile-inner">
+                <div class="profile-initials">YM</div>
+            </div>
+            <div class="code-note">&lt;?php<br>echo "Hello World!";</div>
+        </div>
+    </div>
 
     <section id="about">
-        <div class="container">
-            <h2 class="section-title">About <span>Me</span></h2>
-            <p class="muted">
-                I'm a passionate web developer who enjoys creating websites
-                and learning new technologies. I focus on clean design,
-                responsive layouts and great user experiences.
-            </p>
+        <div class="container about-grid">
+            <div>
+                <h2 class="section-title">About <span>Me</span></h2>
+                <p class="about-copy">
+                    I'm a passionate web developer interested in creating
+                    efficient, attractive and user-friendly web applications.
+                    I enjoy solving problems, learning new technologies and
+                    improving my skills every day.
+                </p>
+                <div class="traits">
+                    <span>✦ Problem Solver</span>
+                    <span>✦ Fast Learner</span>
+                    <span>✦ Team Player</span>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-row">
+                    <span>Name</span>
+                    <span><?= htmlspecialchars($name) ?></span>
+                </div>
+                <div class="info-row">
+                    <span>Email</span>
+                    <span><?= htmlspecialchars($email) ?></span>
+                </div>
+                <div class="info-row">
+                    <span>Location</span>
+                    <span>Morocco</span>
+                </div>
+                <div class="info-row">
+                    <span>Freelance</span>
+                    <span>Available for opportunities</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="skills">
         <div class="container">
             <h2 class="section-title">My <span>Skills</span></h2>
-            <p class="muted">Technologies and tools I work with:</p>
-            <div class="skills">
-                <?php foreach ($skills as $skill): ?>
-                    <div class="skill">
-                        <?= htmlspecialchars($skill) ?>
+            <p class="section-subtitle">Technologies and tools I work with.</p>
+
+            <div class="skills-grid">
+                <?php foreach ($skills as $index => $skill): ?>
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <?php
+                            $icons = ["PHP", "DB", "5", "3", "JS", "Git", "GH"];
+                            echo htmlspecialchars($icons[$index]);
+                            ?>
+                        </div>
+                        <div class="skill-name">
+                            <?= htmlspecialchars($skill[0]) ?>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -287,13 +607,22 @@ $projects = [
     <section id="projects">
         <div class="container">
             <h2 class="section-title">My <span>Projects</span></h2>
-            <div class="projects">
-                <?php foreach ($projects as $project): ?>
-                    <article class="project">
+            <p class="section-subtitle">Some of my recent work.</p>
+
+            <div class="projects-grid">
+                <?php foreach ($projects as $index => $project): ?>
+                    <article class="project-card">
+                        <div class="project-number">
+                            PROJECT 0<?= $index + 1 ?>
+                        </div>
                         <h3><?= htmlspecialchars($project["title"]) ?></h3>
                         <p><?= htmlspecialchars($project["description"]) ?></p>
-                        <a href="<?= htmlspecialchars($project["link"]) ?>">
-                            View Project →
+                        <div class="project-tag">
+                            <?= htmlspecialchars($project["tag"]) ?>
+                        </div>
+                        <a class="project-link"
+                           href="<?= htmlspecialchars($project["link"]) ?>">
+                            View Project ↗
                         </a>
                     </article>
                 <?php endforeach; ?>
@@ -302,27 +631,25 @@ $projects = [
     </section>
 
     <section id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact <span>Me</span></h2>
-            <div class="contact-box">
-                <p class="muted">
-                    Have a project or an opportunity? Feel free to contact me.
-                </p>
-                <br>
-                <a class="btn"
-                   href="mailto:<?= htmlspecialchars($email) ?>">
-                    Send Me an Email
-                </a>
+        <div class="container contact-card">
+            <div>
+                <h2 class="section-title">Get In <span>Touch</span></h2>
+                <p>Have a project or opportunity? Let's talk.</p>
             </div>
+
+            <a class="btn btn-primary"
+               href="mailto:<?= htmlspecialchars($email) ?>">
+                ✉ Send Me an Email
+            </a>
         </div>
     </section>
 </main>
 
 <footer>
-    <div class="container">
-        © <?= date("Y") ?> <?= htmlspecialchars($name) ?>. All rights reserved.
+    <div class="container footer-inner">
+        <div>© <?= date("Y") ?> <span><?= htmlspecialchars($name) ?></span>. All rights reserved.</div>
+        <div>Designed with <span>♥</span> and PHP</div>
     </div>
 </footer>
-
 </body>
 </html>
