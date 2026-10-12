@@ -1,6 +1,6 @@
 
 <?php
-$name = " Mohamed Yacine";
+$name = "Mohamed Yacine";
 $role = "Full Stack Web Developer";
 $email = "elmessarimohamedyacine@gmail.com";
 
@@ -40,7 +40,7 @@ $projects = [
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Official portfolio of Yassine Mohamed, Full Stack Web Developer.">
+<meta name="description" content="Official portfolio of Mohamed Yacine, Full Stack Web Developer.">
 <title><?= htmlspecialchars($name) ?> | Developer</title>
 
 <style>
@@ -505,7 +505,7 @@ footer span {
 <body>
 <header>
     <nav class="container">
-        <a class="logo" href="#home"><span>Y</span>assine.</a>
+        <a class="logo" href="#home"><span>MY</span></a>
         <ul>
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -537,7 +537,7 @@ footer span {
         <div class="profile">
             <div class="profile-ring"></div>
             <div class="profile-inner">
-                <div class="profile-initials">YM</div>
+                <div class="profile-initials">MY</div>
             </div>
             <div class="code-note">&lt;?php<br>echo "Hello World!";</div>
         </div>
