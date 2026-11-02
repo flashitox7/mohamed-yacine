@@ -55,8 +55,8 @@ $workshops = [
         'desc'     => 'Hand-drawn network diagrams for two task sets: earliest and latest dates computed for each step, with the critical path identified (A → B → F → G → H in the second diagram).',
         'tech'     => ['PERT / CPM', 'Critical Path', 'Scheduling'],
         'date'     => '',
-        'image'    => '/images/atelier-1.jpeg',
-        'demo'     => '',
+        'image'    => '',
+        'demo'     => '/images/atelier-1.jpeg',
         'github'   => '',
         'pdf'      => '',
     ],
@@ -107,8 +107,8 @@ $workshops = [
         'desc'     => 'Full Git workflow in the terminal: init, remote origin, commits, a feature branch merged into master, push, history with log, reset --hard and restore.',
         'tech'     => ['Git', 'Git CLI', 'Branches', 'GitHub'],
         'date'     => '',
-        'image'    => '/images/atelier-5.jpeg',
-        'demo'     => '',
+        'image'    => '',
+        'demo'     => '/images/atelier-5.jpeg',
         'github'   => '',
         'pdf'      => '',
     ],
@@ -199,6 +199,11 @@ function link_attrs(string $u): string {
     return 'href="' . e($u) . '"' . (is_external($u) ? ' target="_blank" rel="noopener noreferrer"' : '');
 }
 
+/** Link attributes for a workshop file (PDF / image): always opens in a new tab. */
+function open_attrs(string $u): string {
+    return 'href="' . e($u) . '" target="_blank" rel="noopener noreferrer"';
+}
+
 /** Renders one workshop or project card. */
 function render_card(array $it, array $categories, bool $isWorkshop): void {
     $tech   = array_filter(array_map('strval', $it['tech'] ?? []));
@@ -210,9 +215,11 @@ function render_card(array $it, array $categories, bool $isWorkshop): void {
     $pdf    = $isWorkshop ? safe_url($it['pdf'] ?? '') : '';
     $date   = $isWorkshop ? trim((string)($it['date'] ?? '')) : '';
     $ts     = $date !== '' ? strtotime($date) : false;
+    $main   = $isWorkshop ? ($demo !== '' ? $demo : $pdf) : '';   // what a click on the whole card opens
     $search = strtolower(implode(' ', [$it['title'] ?? '', $it['desc'] ?? '', $it['module'] ?? '', $it['ref'] ?? '', implode(' ', $tech)]));
     ?>
-    <article class="card" <?= $isWorkshop ? 'data-cat="' . e($cat) . '"' : '' ?> data-search="<?= e($search) ?>">
+    <article class="card<?= $main !== '' ? ' has-link' : '' ?>" <?= $isWorkshop ? 'data-cat="' . e($cat) . '"' : '' ?> data-search="<?= e($search) ?>">
+        <?php if ($main !== ''): ?><a class="card-link" <?= open_attrs($main) ?> aria-label="Open <?= e(trim(($it['ref'] ?? '') . ' - ' . ($it['title'] ?? ''), ' -')) ?>" tabindex="-1"></a><?php endif; ?>
         <div class="card-media">
             <?php if ($image !== ''): ?>
                 <img src="<?= e($image) ?>" alt="Screenshot of <?= e($it['title'] ?? '') ?>" loading="lazy" width="640" height="400">
@@ -234,9 +241,10 @@ function render_card(array $it, array $categories, bool $isWorkshop): void {
                 <?php foreach ($tech as $t): ?><li><?= e($t) ?></li><?php endforeach; ?>
             </ul>
             <div class="actions">
-                <?php if ($demo !== ''): ?><a class="btn btn-sm btn-primary" <?= link_attrs($demo) ?>><?= $isWorkshop ? 'Open work' : 'Live demo' ?></a><?php endif; ?>
+                <?php if ($demo !== ''): ?><a class="btn btn-sm btn-primary" <?= $isWorkshop ? open_attrs($demo) : link_attrs($demo) ?>><?= $isWorkshop ? 'Open work' : 'Live demo' ?></a><?php endif; ?>
                 <?php if ($github !== ''): ?><a class="btn btn-sm btn-ghost" <?= link_attrs($github) ?>><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a><?php endif; ?>
-                <?php if ($pdf !== ''): ?><a class="btn btn-sm btn-ghost" <?= link_attrs($pdf) ?>><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF</a><?php endif; ?>
+                <?php if ($pdf !== ''): ?><a class="btn btn-sm btn-ghost" <?= open_attrs($pdf) ?>><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF</a>
+                    <a class="btn btn-sm btn-ghost" href="<?= e($pdf) ?>" download="<?= e(basename(parse_url($pdf, PHP_URL_PATH) ?: 'document.pdf')) ?>"><i class="fa-solid fa-download" aria-hidden="true"></i> Download</a><?php endif; ?>
             </div>
         </div>
     </article>
@@ -401,6 +409,9 @@ section{padding:clamp(4.5rem,10vw,8rem) 0}
 .tags{display:flex;flex-wrap:wrap;gap:.4rem}
 .tags li{font:.76rem var(--mono);padding:.22rem .6rem;border-radius:6px;background:rgba(59,130,246,.12);color:#8fb8fb;border:1px solid rgba(59,130,246,.22)}
 .actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:auto;padding-top:.6rem}
+.card-link{position:absolute;inset:0;z-index:1;border-radius:inherit}
+.card.has-link{cursor:pointer}
+.card .actions .btn{position:relative;z-index:2}
 .empty{border:1px dashed #3a3a50;border-radius:var(--r);padding:3.5rem 1.5rem;text-align:center;display:grid;gap:.6rem;justify-items:center;background:rgba(255,255,255,.015)}
 .empty i{font-size:1.8rem;color:var(--purple)}
 .empty h3{font-size:1.4rem}
