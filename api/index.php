@@ -25,6 +25,13 @@ $categories = [
     'other'      => 'Other',
 ];
 
+// ---- Modules (one folder per module inside /public, e.g. public/M202/docs and public/M202/images)
+// 'label' is optional: a short subtitle shown next to the module code (leave '' to show the code only).
+$modules = [
+    'M202' => ['label' => ''],
+    // 'M203' => ['label' => ''],
+];
+
 /*
 |--------------------------------------------------------------------------
 | HOW TO ADD A WORKSHOP / TP
@@ -36,19 +43,28 @@ $categories = [
 | Keys:
 |   'ref'      Workshop number or reference, e.g. 'Atelier 01' or 'TP 03'
 |   'title'    Workshop title
-|   'module'   School subject / module
+|   'mod'      Module code: must be one of the keys of $modules above, e.g. 'M202'
+|   'module'   School subject / topic shown on the card
 |   'category' One of: html-css, javascript, php, sql, git, other
 |   'desc'     Short description (1–2 sentences)
 |   'tech'     List of technologies, e.g. ['HTML5', 'CSS3']
 |   'date'     (optional) e.g. '2026-11-05' (YYYY-MM-DD) — newest are shown first
-|   'image'    (optional) path to screenshot, e.g. 'images/atelier-01.png'
-|   'demo'     (optional) link or path to the finished work, e.g. 'workshops/atelier-01/index.html'
+|   'image'    (optional) path to screenshot, e.g. '/M202/images/atelier-06.png'
+|   'demo'     (optional) link or path to the finished work, e.g. '/M202/images/atelier-06.jpeg'
 |   'github'   (optional) GitHub repository URL
-|   'pdf'      (optional) path to PDF report/assignment, e.g. 'docs/atelier-01.pdf'
+|   'pdf'      (optional) path to PDF report/assignment, e.g. '/M202/docs/atelier-06.pdf'
+|
+| FILES: put them in public/<module>/docs (PDF) or public/<module>/images (images),
+| e.g. public/M202/docs/atelier-06.pdf, and refer to them with a path starting with "/".
+| Paths are case-sensitive on Vercel: write the module folder exactly as it is ('M202').
+|
+| HOW TO ADD A NEW MODULE: add its code to $modules (e.g. 'M203' => ['label' => '']),
+| create public/M203/docs and public/M203/images, then use 'mod' => 'M203' in its TPs.
 */
 $workshops = [
     [
         'ref'      => 'Atelier 01',
+        'mod'      => 'M202',
         'title'    => 'Project Scheduling: Network Diagram & Critical Path',
         'module'   => 'Project Management',
         'category' => 'other',
@@ -56,12 +72,13 @@ $workshops = [
         'tech'     => ['PERT / CPM', 'Critical Path', 'Scheduling'],
         'date'     => '',
         'image'    => '',
-        'demo'     => '/images/atelier-1.jpeg',
+        'demo'     => '/M202/images/atelier-1.jpeg',
         'github'   => '',
         'pdf'      => '',
     ],
     [
         'ref'      => 'Atelier 02',
+        'mod'      => 'M202',
         'title'    => 'Agile Project Management & Scrum',
         'module'   => 'Agile Project Management',
         'category' => 'other',
@@ -71,10 +88,11 @@ $workshops = [
         'image'    => '',
         'demo'     => '',
         'github'   => '',
-        'pdf'      => '/docs/atelier-2.pdf',
+        'pdf'      => '/M202/docs/atelier-2.pdf',
     ],
     [
         'ref'      => 'Atelier 03',
+        'mod'      => 'M202',
         'title'    => 'Git Fundamentals: Local Repository',
         'module'   => 'Version Control with Git',
         'category' => 'git',
@@ -84,10 +102,11 @@ $workshops = [
         'image'    => '',
         'demo'     => '',
         'github'   => '',
-        'pdf'      => '/docs/atelier-3.pdf',
+        'pdf'      => '/M202/docs/atelier-3.pdf',
     ],
     [
         'ref'      => 'Atelier 04',
+        'mod'      => 'M202',
         'title'    => 'Git & GitHub: Collaborative Work',
         'module'   => 'Version Control with Git',
         'category' => 'git',
@@ -97,10 +116,11 @@ $workshops = [
         'image'    => '',
         'demo'     => '',
         'github'   => '',
-        'pdf'      => '/docs/atelier-4.pdf',
+        'pdf'      => '/M202/docs/atelier-4.pdf',
     ],
     [
         'ref'      => 'Atelier 05',
+        'mod'      => 'M202',
         'title'    => 'Git Workflow: Branches, Merge & Remote',
         'module'   => 'Version Control with Git',
         'category' => 'git',
@@ -108,12 +128,13 @@ $workshops = [
         'tech'     => ['Git', 'Git CLI', 'Branches', 'GitHub'],
         'date'     => '',
         'image'    => '',
-        'demo'     => '/images/atelier-5.jpeg',
+        'demo'     => '/M202/images/atelier-5.jpeg',
         'github'   => '',
         'pdf'      => '',
     ],
     // [
-    //     'ref'      => 'Atelier 01',
+    //     'ref'      => 'Atelier 06',
+    //     'mod'      => 'M202',
     //     'title'    => 'Title of the workshop',
     //     'module'   => 'Module name',
     //     'category' => 'html-css',
@@ -215,10 +236,11 @@ function render_card(array $it, array $categories, bool $isWorkshop): void {
     $pdf    = $isWorkshop ? safe_url($it['pdf'] ?? '') : '';
     $date   = $isWorkshop ? trim((string)($it['date'] ?? '')) : '';
     $ts     = $date !== '' ? strtotime($date) : false;
+    $mod    = $isWorkshop ? trim((string)($it['mod'] ?? '')) : '';
     $main   = $isWorkshop ? ($demo !== '' ? $demo : $pdf) : '';   // what a click on the whole card opens
-    $search = strtolower(implode(' ', [$it['title'] ?? '', $it['desc'] ?? '', $it['module'] ?? '', $it['ref'] ?? '', implode(' ', $tech)]));
+    $search = strtolower(implode(' ', [$it['title'] ?? '', $it['desc'] ?? '', $it['module'] ?? '', $it['ref'] ?? '', $mod, implode(' ', $tech)]));
     ?>
-    <article class="card<?= $main !== '' ? ' has-link' : '' ?>" <?= $isWorkshop ? 'data-cat="' . e($cat) . '"' : '' ?> data-search="<?= e($search) ?>">
+    <article class="card<?= $main !== '' ? ' has-link' : '' ?>" <?= $isWorkshop ? 'data-cat="' . e($cat) . '" data-mod="' . e($mod) . '"' : '' ?> data-search="<?= e($search) ?>">
         <?php if ($main !== ''): ?><a class="card-link" <?= open_attrs($main) ?> aria-label="Open <?= e(trim(($it['ref'] ?? '') . ' - ' . ($it['title'] ?? ''), ' -')) ?>" tabindex="-1"></a><?php endif; ?>
         <div class="card-media">
             <?php if ($image !== ''): ?>
@@ -257,6 +279,17 @@ usort($workshops, function ($a, $b) {
     $tb = !empty($b['date']) ? (int)strtotime($b['date']) : 0;
     return $tb <=> $ta;
 });
+
+// Group workshops by module (module order follows $modules; unknown or missing codes are handled gracefully)
+$groups = [];
+foreach ($workshops as $w) {
+    $code = trim((string)($w['mod'] ?? ''));
+    if ($code === '') $code = (string)array_key_first($modules);
+    if (!isset($modules[$code])) $modules[$code] = ['label' => ''];
+    $w['mod'] = $code;
+    $groups[$code][] = $w;
+}
+$groups = array_filter(array_replace(array_fill_keys(array_keys($modules), null), $groups));
 
 $github   = safe_url($site['github']);
 $linkedin = safe_url($site['linkedin']);
@@ -409,6 +442,17 @@ section{padding:clamp(4.5rem,10vw,8rem) 0}
 .tags{display:flex;flex-wrap:wrap;gap:.4rem}
 .tags li{font:.76rem var(--mono);padding:.22rem .6rem;border-radius:6px;background:rgba(59,130,246,.12);color:#8fb8fb;border:1px solid rgba(59,130,246,.22)}
 .actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:auto;padding-top:.6rem}
+.modules{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-bottom:1rem}
+.mod-label{font:.85rem var(--mono);color:var(--muted);margin-right:.4rem}
+.mod-label i{color:var(--purple);margin-right:.35rem}
+.mod-group[hidden]{display:none}
+.mod-group+.mod-group{margin-top:3rem}
+.mod-head{display:flex;align-items:center;gap:.9rem;margin-bottom:1.3rem}
+.mod-head::after{content:"";order:9;flex:1;height:1px;background:var(--line)}
+.mod-head h3{font:700 1.4rem var(--mono);color:#b9a2fb;letter-spacing:-.02em}
+.mod-head h3 i{margin-right:.55rem;color:var(--purple);font-size:1.1rem}
+.mod-sub{color:var(--muted);font-size:.95rem}
+.mod-count{font:.8rem var(--mono);color:var(--muted)}
 .card-link{position:absolute;inset:0;z-index:1;border-radius:inherit}
 .card.has-link{cursor:pointer}
 .card .actions .btn{position:relative;z-index:2}
@@ -574,6 +618,15 @@ footer::before{content:"";position:absolute;top:-1px;left:0;width:min(220px,40%)
       $counts = array_fill_keys(array_keys($categories), 0);
       foreach ($workshops as $w) { $c = $w['category'] ?? 'other'; $counts[isset($categories[$c]) ? $c : 'other']++; }
     ?>
+    <?php if ($groups): ?>
+    <div class="modules reveal" role="group" aria-label="Filter workshops by module">
+      <span class="mod-label"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Module</span>
+      <button class="chip" type="button" data-module="all" aria-pressed="true">All<small><?= count($workshops) ?></small></button>
+      <?php foreach ($groups as $code => $items): ?>
+        <button class="chip" type="button" data-module="<?= e((string)$code) ?>" aria-pressed="false"><?= e((string)$code) ?><small><?= count($items) ?></small></button>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
     <div class="toolbar reveal">
       <div class="chips" role="group" aria-label="Filter workshops by category">
         <button class="chip" type="button" data-filter="all" aria-pressed="true">All<small><?= count($workshops) ?></small></button>
@@ -587,8 +640,19 @@ footer::before{content:"";position:absolute;top:-1px;left:0;width:min(220px,40%)
       </div>
     </div>
 
-    <div class="grid" id="ws-grid">
-      <?php foreach ($workshops as $w) render_card($w, $categories, true); ?>
+    <div id="ws-grid">
+      <?php foreach ($groups as $code => $items): $mlabel = trim((string)($modules[$code]['label'] ?? '')); ?>
+      <div class="mod-group" role="group" data-module="<?= e((string)$code) ?>" aria-label="Module <?= e((string)$code) ?>">
+        <header class="mod-head">
+          <h3><i class="fa-solid fa-folder-open" aria-hidden="true"></i><?= e((string)$code) ?></h3>
+          <?php if ($mlabel !== ''): ?><span class="mod-sub"><?= e($mlabel) ?></span><?php endif; ?>
+          <small class="mod-count"><?= count($items) ?> TP</small>
+        </header>
+        <div class="grid">
+          <?php foreach ($items as $w) render_card($w, $categories, true); ?>
+        </div>
+      </div>
+      <?php endforeach; ?>
     </div>
 
     <div class="empty" id="ws-empty" <?= $workshops ? 'hidden' : '' ?>>
@@ -753,18 +817,25 @@ footer::before{content:"";position:absolute;top:-1px;left:0;width:min(220px,40%)
   var grid = document.getElementById('ws-grid');
   if (grid) {
     var cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
-    var chips = document.querySelectorAll('.chip');
+    var chips = document.querySelectorAll('.chip[data-filter]');
+    var modChips = document.querySelectorAll('.chip[data-module]');
+    var groupEls = Array.prototype.slice.call(grid.querySelectorAll('.mod-group'));
     var search = document.getElementById('search');
     var empty = document.getElementById('ws-empty');
     var live = document.getElementById('live');
     var resetBtn = document.getElementById('reset');
-    var state = { cat: 'all', q: '' };
+    var state = { cat: 'all', mod: 'all', q: '' };
 
     function apply() {
       var visible = 0;
       cards.forEach(function (c) {
-        var ok = (state.cat === 'all' || c.dataset.cat === state.cat) && (state.q === '' || c.dataset.search.indexOf(state.q) !== -1);
+        var ok = (state.cat === 'all' || c.dataset.cat === state.cat) && (state.mod === 'all' || c.dataset.mod === state.mod) && (state.q === '' || c.dataset.search.indexOf(state.q) !== -1);
         c.hidden = !ok; if (ok) visible++;
+      });
+      groupEls.forEach(function (g) {
+        var n = g.querySelectorAll('.card:not([hidden])').length;
+        g.hidden = n === 0;
+        var cnt = g.querySelector('.mod-count'); if (cnt) cnt.textContent = n + ' TP';
       });
       if (cards.length) empty.hidden = visible > 0;
       live.textContent = cards.length ? visible + (visible === 1 ? ' workshop shown' : ' workshops shown') : '';
@@ -776,10 +847,18 @@ footer::before{content:"";position:absolute;top:-1px;left:0;width:min(220px,40%)
         apply();
       });
     });
+    modChips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        state.mod = chip.dataset.module;
+        modChips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip); });
+        apply();
+      });
+    });
     search.addEventListener('input', function () { state.q = search.value.trim().toLowerCase(); apply(); });
     if (resetBtn) resetBtn.addEventListener('click', function () {
-      state = { cat: 'all', q: '' }; search.value = '';
+      state = { cat: 'all', mod: 'all', q: '' }; search.value = '';
       chips.forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.filter === 'all'); });
+      modChips.forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.module === 'all'); });
       apply(); search.focus();
     });
   }
